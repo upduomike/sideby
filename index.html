@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sideby.ai - Learning Through Trust</title>
+    <style>
+        :root {
+            --primary-color: #3454D1;
+            --secondary-color: #FF9F1C;
+            --accent-color: #36B5B0;
+            --dark-color: #2D3142;
+            --light-color: #F7F9FC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: transparent;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-links a {
+            color: var(--dark-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--light-color), #E8EEF9);
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(52, 84, 209, 0.3);
+        }
+
+        .principles {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .principle-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: var(--light-color);
+            transition: transform 0.3s;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .principle-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .quote-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .quote-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-text {
+            font-size: 2rem;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .proof-points {
+            padding: 6rem 2rem;
+            background: var(--light-color);
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .proof-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .proof-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .principle-card {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">sideby.ai</div>
+            <div class="nav-links">
+                <a href="#principles">Our Principles</a>
+                <a href="#approach">Our Approach</a>
+                <a href="#impact">Impact</a>
+                <a href="#join">Join Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Learning Through Trust, Powered by AI</h1>
+            <p>We believe in the power of making mistakes, the thrill of discovery, and the partnership between human potential and artificial intelligence.</p>
+            <a href="#join" class="cta-button">Start Your Journey</a>
+        </div>
+    </section>
+
+    <section class="principles" id="principles">
+        <div class="principles-grid">
+            <div class="principle-card">
+                <h3>Trust in Learning</h3>
+                <p>Like athletes trusted to push their limits, we believe students thrive when given the freedom to explore, experiment, and yes – make mistakes. These moments of challenge are where true growth happens.</p>
+            </div>
+            <div class="principle-card">
+                <h3>AI as Your Training Partner</h3>
+                <p>Just as advanced equipment helps athletes perform better, AI is a tool that enhances human capability. We harness technology not to replace human wisdom, but to amplify it.</p>
+            </div>
+            <div class="principle-card">
+                <h3>Natural Growth</h3>
+                <p>Inspired by our adventures in nature, we know that growth isn't linear. It's a journey of peaks, valleys, and unexpected discoveries – all supported by the right tools and community.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="quote-section">
+        <div class="quote-content">
+            <p class="quote-text">"The best learning happens when we're trusted to explore our own path, supported by tools that enhance our natural abilities."</p>
+        </div>
+    </section>
+
+    <section class="proof-points" id="impact">
+        <div class="proof-grid">
+            <div class="proof-item">
+                <div class="proof-number">87%</div>
+                <p>of students report increased confidence in their learning journey</p>
+            </div>
+            <div class="proof-item">
+                <div class="proof-number">92%</div>
+                <p>feel more empowered to take educational risks</p>
+            </div>
+            <div class="proof-item">
+                <div class="proof-number">3x</div>
+                <p>increase in creative problem-solving approaches</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Join us in reimagining education for the AI age</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
