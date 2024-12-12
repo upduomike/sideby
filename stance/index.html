@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div class="header">Your Current Stance</div>
-        <div class="summary-card">
+        <div class="summary-card" id="summaryCard">
             Based on the analysis, you're leaning 60% toward abundance-mindedness.
         </div>
 
@@ -23,33 +23,66 @@
             <span>Abundance</span>
         </div>
 
+        <input type="file" id="transcriptUpload" accept=".txt" />
         <div class="nudge" id="nudgeAction">Nudge yourself forward</div>
     </div>
 
     <script>
-        // JavaScript to dynamically update the user's position and display nudges
         const userPosition = document.getElementById('userPosition');
+        const summaryCard = document.getElementById('summaryCard');
         const nudgeAction = document.getElementById('nudgeAction');
+        const transcriptUpload = document.getElementById('transcriptUpload');
 
-        // Mock transcript analysis (replace this with real data processing)
-        const stanceData = {
-            abundance: 60, // Percentage leaning toward abundance
-            scarcity: 40 // Percentage leaning toward scarcity
+        // Predefined keywords for abundance and scarcity
+        const keywords = {
+            abundance: ["opportunity", "growth", "plenty", "positive", "generous"],
+            scarcity: ["lack", "fear", "limit", "negative", "stingy"]
         };
 
-        // Update user's position based on stanceData
-        function updateUserPosition(data) {
+        // Function to analyze transcript
+        function analyzeTranscript(transcript) {
+            const words = transcript.toLowerCase().split(/\W+/); // Split into words
+            let abundanceCount = 0;
+            let scarcityCount = 0;
+
+            // Count occurrences of keywords
+            words.forEach(word => {
+                if (keywords.abundance.includes(word)) abundanceCount++;
+                if (keywords.scarcity.includes(word)) scarcityCount++;
+            });
+
+            const total = abundanceCount + scarcityCount;
+            const abundancePercent = total > 0 ? Math.round((abundanceCount / total) * 100) : 50;
+            const scarcityPercent = 100 - abundancePercent;
+
+            return { abundance: abundancePercent, scarcity: scarcityPercent };
+        }
+
+        // Update UI based on analysis
+        function updateUI(data) {
             const positionPercent = data.abundance; // Use abundance percentage for position
             userPosition.style.left = `${positionPercent}%`;
+            summaryCard.textContent = `Based on the analysis, you're leaning ${positionPercent}% toward abundance-mindedness.`;
         }
+
+        // Handle file upload
+        transcriptUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const transcript = e.target.result;
+                    const stanceData = analyzeTranscript(transcript);
+                    updateUI(stanceData);
+                };
+                reader.readAsText(file);
+            }
+        });
 
         // Add nudge action
         nudgeAction.addEventListener('click', () => {
             alert('To lean more into abundance, try reframing challenges as opportunities!');
         });
-
-        // Initialize UI
-        updateUserPosition(stanceData);
     </script>
 </body>
 </html>
