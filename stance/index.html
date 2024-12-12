@@ -23,7 +23,7 @@
             <span>Abundance</span>
         </div>
 
-        <input type="file" id="transcriptUpload" accept=".txt" />
+        <input type="file" id="transcriptUpload" accept=".vtt" />
         <div class="nudge" id="nudgeAction">Nudge yourself forward</div>
     </div>
 
@@ -33,29 +33,56 @@
         const nudgeAction = document.getElementById('nudgeAction');
         const transcriptUpload = document.getElementById('transcriptUpload');
 
-        // Predefined keywords for abundance and scarcity
-        const keywords = {
-            abundance: ["opportunity", "growth", "plenty", "positive", "generous"],
-            scarcity: ["lack", "fear", "limit", "negative", "stingy"]
-        };
+        // Function to parse .vtt file and extract text content
+        function parseVTT(content) {
+            return content
+                .split(/\n\n/) // Split by double newlines (block separator in .vtt)
+                .map(block => block.split(/\n/).slice(1).join(" ")) // Remove timestamps and join captions
+                .join(" "); // Join all text blocks into a single string
+        }
 
-        // Function to analyze transcript
-        function analyzeTranscript(transcript) {
-            const words = transcript.toLowerCase().split(/\W+/); // Split into words
-            let abundanceCount = 0;
-            let scarcityCount = 0;
+        // Function to send transcript to GPT-4 for analysis
+        async function analyzeTranscriptWithGPT(transcript) {
+            const apiKey = "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"; // Replace with your actual API key
+            const url = "https://api.openai.com/v1/chat/completions";
 
-            // Count occurrences of keywords
-            words.forEach(word => {
-                if (keywords.abundance.includes(word)) abundanceCount++;
-                if (keywords.scarcity.includes(word)) scarcityCount++;
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4",
+                    messages: [
+                        {
+                            role: "system",
+                            content: "You are an assistant analyzing the sentiment and stance of text along two spectrums: abundance-mindedness vs scarcity-mindedness. Respond with percentages for each."
+                        },
+                        {
+                            role: "user",
+                            content: transcript
+                        }
+                    ]
+                })
             });
 
-            const total = abundanceCount + scarcityCount;
-            const abundancePercent = total > 0 ? Math.round((abundanceCount / total) * 100) : 50;
-            const scarcityPercent = 100 - abundancePercent;
+            if (!response.ok) {
+                throw new Error("Failed to analyze transcript with GPT-4");
+            }
 
-            return { abundance: abundancePercent, scarcity: scarcityPercent };
+            const data = await response.json();
+            const content = data.choices[0].message.content;
+            const match = content.match(/abundance: (\d+)%.*scarcity: (\d+)%/i);
+
+            if (match) {
+                return {
+                    abundance: parseInt(match[1], 10),
+                    scarcity: parseInt(match[2], 10)
+                };
+            } else {
+                throw new Error("Unexpected response format from GPT-4");
+            }
         }
 
         // Update UI based on analysis
@@ -66,14 +93,21 @@
         }
 
         // Handle file upload
-        transcriptUpload.addEventListener('change', (event) => {
+        transcriptUpload.addEventListener('change', async (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    const transcript = e.target.result;
-                    const stanceData = analyzeTranscript(transcript);
-                    updateUI(stanceData);
+                reader.onload = async (e) => {
+                    const content = e.target.result;
+                    const transcript = parseVTT(content); // Extract text from .vtt
+
+                    try {
+                        const stanceData = await analyzeTranscriptWithGPT(transcript);
+                        updateUI(stanceData);
+                    } catch (error) {
+                        console.error("Error analyzing transcript:", error);
+                        alert("Failed to analyze transcript. Please try again.");
+                    }
                 };
                 reader.readAsText(file);
             }
