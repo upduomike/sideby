@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Spectrum Indicator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">Your Current Stance</div>
+        <div class="summary-card">
+            Based on the analysis, you're leaning 60% toward abundance-mindedness.
+        </div>
+
+        <div class="spectrum-bar">
+            <div class="spectrum-marker"></div>
+            <div class="user-position" id="userPosition"></div>
+        </div>
+
+        <div class="spectrum-labels">
+            <span>Scarcity</span>
+            <span>Abundance</span>
+        </div>
+
+        <div class="nudge" id="nudgeAction">Nudge yourself forward</div>
+    </div>
+
+    <script>
+        // JavaScript to dynamically update the user's position and display nudges
+        const userPosition = document.getElementById('userPosition');
+        const nudgeAction = document.getElementById('nudgeAction');
+
+        // Mock transcript analysis (replace this with real data processing)
+        const stanceData = {
+            abundance: 60, // Percentage leaning toward abundance
+            scarcity: 40 // Percentage leaning toward scarcity
+        };
+
+        // Update user's position based on stanceData
+        function updateUserPosition(data) {
+            const positionPercent = data.abundance; // Use abundance percentage for position
+            userPosition.style.left = `${positionPercent}%`;
+        }
+
+        // Add nudge action
+        nudgeAction.addEventListener('click', () => {
+            alert('To lean more into abundance, try reframing challenges as opportunities!');
+        });
+
+        // Initialize UI
+        updateUserPosition(stanceData);
+    </script>
+</body>
+</html>
