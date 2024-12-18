@@ -3,47 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Communities - Where Teachers Learn</title>
-    <link rel="icon" type="image/jpeg" href="logo-image.jpg">
+    <title>Welcome to SideBy</title>
+    <link rel="icon" href="logo-image.jpg">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
+        /* General Styling */
         body {
             font-family: 'Poppins', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            margin: 0;
             background: linear-gradient(135deg, #7e57c2, #ab47bc, #ffab91);
             color: white;
-            height: 100vh;
-            margin: 0;
+            text-align: center;
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            text-align: center;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        #dynamicText span {
+            font-weight: 600;
+            color: #ffccbc;
         }
 
         #googleLoginButton {
             margin-top: 20px;
         }
+
+        #errorMessage {
+            color: #ff5252;
+            margin-top: 15px;
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Content -->
     <div class="content">
-        <h1>Welcome to Open Communities</h1>
-        <p>Sign in to join the educators' AI learning experience.</p>
+        <h1>Welcome to SideBy</h1>
+        <p id="dynamicText">The second best way to get better at <span id="activity">teaching</span>.</p>
         <div id="googleLoginButton"></div>
-        <p id="errorMessage" style="color: red; display: none;">Login failed. Please try again.</p>
+        <p id="errorMessage">Login failed. Please try again.</p>
     </div>
 
+    <!-- Script Section -->
     <script>
-        // Initialize Google Sign-In
+        // Activity Rotation Logic
+        const activities = ['teaching', 'leveraging technology', 'collaborating', 'learning from peers'];
+        let index = 0;
+        const activityElement = document.getElementById('activity');
+
+        function rotateActivity() {
+            activityElement.textContent = activities[index];
+            index = (index + 1) % activities.length;
+        }
+
+        setInterval(rotateActivity, 2000); // Rotate every 2 seconds
+
+        // Google Sign-In Initialization
         window.onload = function() {
             google.accounts.id.initialize({
-                client_id: "YOUR_GOOGLE_CLIENT_ID",
+                client_id: "496967097017-srg4hqfd8c1od4g26042q3lqnf4m5rgq.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
 
@@ -55,15 +85,17 @@
                 }
             );
 
-            google.accounts.id.prompt(); // Automatically prompts for login if possible
+            google.accounts.id.prompt(); // Automatically triggers sign-in prompt
         };
 
+        // Handle Google Sign-In Response
         function handleCredentialResponse(response) {
             if (!response.credential) {
                 showError("Login failed. Please try again.");
                 return;
             }
 
+            // Send token to backend for validation
             fetch('https://chairlift-fun.onrender.com/oauth2callback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,16 +104,11 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    // Check if the user is on the roster
-                    if (data.user.onRoster) {
-                        localStorage.setItem('email', data.user.email);
-                        window.location.href = '/dashboard';
-                    } else {
-                        alert("You're not on the roster yet. Please sign up first.");
-                        window.location.href = '/signup';
-                    }
+                    // Save user info and redirect
+                    localStorage.setItem('email', data.user.email);
+                    window.location.href = '/dashboard';
                 } else {
-                    showError(data.message || "Login failed. Please try again.");
+                    showError("You are not on the roster yet. Please sign up first.");
                 }
             })
             .catch(error => {
@@ -90,10 +117,11 @@
             });
         }
 
+        // Display Error Message
         function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
         }
     </script>
 </body>
