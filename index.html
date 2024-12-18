@@ -5,622 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Communities - Where Teachers Learn</title>
     <link rel="icon" type="image/jpeg" href="logo-image.jpg">
-    <link rel="apple-touch-icon" href="logo-image.jpg">
-    <link rel="shortcut icon" href="logo-image.jpg">
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.1-min.js.gz"></script><script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.8.0-min.js.gz"></script><script>window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init('138a34111e7d9f5e3cf3002294db229f', {"autocapture":{"elementInteractions":true}});</script>
-    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 2rem 0;
+            justify-content: center;
             background: linear-gradient(135deg, #7e57c2, #ab47bc, #ffab91);
-            background-size: 300% 300%;
-            animation: gradientShift 15s ease infinite;
-            position: relative;
             color: white;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: inherit;
-            z-index: -2;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .content {
-            width: 90%;
-            max-width: 600px;
-            margin: auto;
-            padding: 2rem;
-            text-align: center;
-            z-index: 1;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            height: 100vh;
+            margin: 0;
         }
 
         h1 {
-            font-size: 3rem;
-            margin: 0 0 1rem 0;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            line-height: 1.2;
-        }
-
-        p {
-            font-size: 1.2rem;
-            margin: 0 0 1.5rem 0;
-            line-height: 1.6;
-            font-weight: 300;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .button-container {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            background-color: #ffab91;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            min-width: 150px;
-        }
-
-        .cta-button:hover {
-            background-color: #ff8a65;
-            transform: scale(1.05);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            color: black;
-        }
-
-        .close {
-            color: red;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #ticketNumber {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .form-container {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 90%;
-            margin: 2rem auto;
-            display: none;
-            color: #333;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-title {
             font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #7e57c2;
+            margin-bottom: 1rem;
             text-align: center;
-            font-weight: 600;
         }
 
-        .context-section {
-            background: #f8f5ff;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-
-        .lead-text {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            color: #4a4a4a;
-            text-shadow: none;
-        }
-
-        .format-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border: 1px solid #e0d5f9;
-        }
-
-        .format-title {
-            color: #7e57c2;
-            margin: 0 0 1rem 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .format-benefits {
-            margin: 1rem 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .format-benefits li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-            line-height: 1.4;
-            color: #4a4a4a;
-        }
-
-        .format-benefits li:before {
-            content: "•";
-            color: #7e57c2;
-            position: absolute;
-            left: 0;
-        }
-
-        .highlight {
-            color: #7e57c2;
-            font-weight: 500;
-        }
-
-        .post-submit-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid #e0d5f9;
-            display: none;
-        }
-
-        .schedule-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border: 1px solid #e0d5f9;
-        }
-
-        .schedule-title {
-            color: #7e57c2;
-            margin: 0 0 1rem 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .time-slots {
-            margin-bottom: 1rem;
-        }
-
-        .time-slots p {
-            margin: 0.5rem 0;
-            color: #4a4a4a;
-            text-shadow: none;
-        }
-
-        .day {
-            color: #7e57c2;
-            font-weight: 600;
-            min-width: 100px;
-            display: inline-block;
-        }
-
-        .schedule-note {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0d5f9;
-        }
-
-        .details-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border: 1px solid #e0d5f9;
-        }
-
-        .details-title {
-            color: #7e57c2;
-            margin: 0 0 1rem 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .details-text {
-            margin-bottom: 1rem;
-            color: #4a4a4a;
-            text-shadow: none;
-        }
-
-        .next-steps {
-            margin: 0;
-            padding-left: 1.5rem;
-        }
-
-        .next-steps li {
-            color: #4a4a4a;
-            margin-bottom: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .sponsor-button {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 2;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem 0;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            .content {
-                padding: 1.5rem;
-            }
-
-            .cta-button {
-                width: 100%;
-                margin: 0.5rem 0;
-            }
-
-            .sponsor-button {
-                position: static;
-                margin: 1rem auto;
-                width: 90%;
-            }
-
-            .modal-content {
-                margin: 10% auto;
-                padding: 1.5rem;
-            }
-
-            .form-container {
-                padding: 1.5rem;
-            }
-
-            .form-title {
-                font-size: 2rem;
-            }
-
-            .context-section {
-                padding: 1.5rem;
-            }
-
-            .format-box,
-            .schedule-box,
-            .details-box {
-                padding: 1rem;
-            }
-
-            .day {
-                display: block;
-                margin-bottom: 0.25rem;
-            }
+        #googleLoginButton {
+            margin-top: 20px;
         }
     </style>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <canvas id="backgroundCanvas"></canvas>
-
-    <div class="content" id="content">
-        <h1>Educators, learn to AI like you learn to <span id="activity">ski powder</span></h1>
-        <p>A community for teachers who are leaning into AI and want to learn it the way they'd teach it.</p>
-        <div class="button-container">
-
-<div id="googleLoginButton"></div>
-<p id="errorMessage" class="error-message" style="display: none;"></p>
-            <button class="cta-button" id="getInLineButton">Get in Line</button>
-            <button class="cta-button" id="haveTicketButton">I Have a Ticket</button>
-        </div>
+    <div class="content">
+        <h1>Welcome to Open Communities</h1>
+        <p>Sign in to join the educators' AI learning experience.</p>
+        <div id="googleLoginButton"></div>
+        <p id="errorMessage" style="color: red; display: none;">Login failed. Please try again.</p>
     </div>
-
-    <div id="ticketModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Enter Your Ticket Number</h2>
-            <input type="text" id="ticketNumber" placeholder="Enter your ticket">
-            <button id="submitTicketButton" class="cta-button">Submit Ticket</button>
-            <p id="ticketError" style="color: red; display: none;">Invalid ticket, please try again.</p>
-        </div>
-    </div>
-
-    <div id="hubspot-form" class="form-container">
-        <div class="form-header">
-            <h2 class="form-title">Join the Waitlist</h2>
-            <div class="context-section">
-                <div class="welcome-text">
-                    <p class="lead-text">
-                        Get early access to the "AI in Education" open community - a new peer learning experience for educators exploring AI in the classroom.
-                    </p>
-                </div>
- 
-            <div class="format-box">
-                <h3 class="format-title">Why Open Communities Accelerate Learning</h3>
-                <ul class="format-benefits">
-                    <li><span class="highlight">Real-Time Relevance:</span> Peer conversations provide up-to-date, practical AI insights beyond static tutorials.</li>
-                    <li><span class="highlight">Diverse Perspectives:</span> Sharing unique experiences highlights and enhances our varied approaches to AI.</li>
-                    <li><span class="highlight">Brief, Focused Sessions:</span> Short breaks for sharing tips, tricks, and insights that enrich our practice.</li>
-                </ul>
-            </div>
-
-            <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"> </script>     
-            <script>               
-                hbspt.forms.create({                 
-                    portalId: "46083695",                 
-                    formId: "9f8ebd04-daf9-45a0-bc68-81ed21a78b22",                 
-                    onFormSubmitted: function($form) {                     
-                        document.getElementById('post-submit-info').style.display = 'block';                     
-                        resizeCanvas();                 
-                    }              
-                });             
-            </script>
-
-            <div id="post-submit-info" class="post-submit-section">
-                <div class="schedule-box">
-                    <h3 class="schedule-title">Available Sessions</h3>
-                    <div class="time-slots">
-                        <p><span class="day">Tuesdays:</span> 7:30 - 7:45 am PST</p>
-                        <p><span class="day">Wednesdays:</span> 12:00 - 12:15 pm PST</p>
-                        <p><span class="day">Thursdays:</span> 3:30 - 3:45 pm PST</p>
-                    </div>
-                    <p class="schedule-note">
-                        Program runs Sept 23, 2024 - June 30, 2025 (with holiday breaks)
-                    </p>
-                </div>
-
-                <div class="details-box">
-                    <h3 class="details-title">Next Steps</h3>
-                    <p class="details-text">
-                        Thanks for joining the waitlist! Here's what happens next:
-                    </p>
-                    <ol class="next-steps">
-                        <li>You'll receive a welcome email with more information about the program</li>
-                        <li>When a spot becomes available, we'll notify you to complete your registration</li>
-                        <li>Upon registration, you'll get access to the Upduo platform and can start attending sessions</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <button class="cta-button sponsor-button" onclick="location.href='sponsor.html'">Sponsor a teacher</button>
 
     <script>
-        // Canvas animation setup
-        const canvas = document.getElementById('backgroundCanvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = document.documentElement.scrollHeight;
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        const observer = new ResizeObserver(resizeCanvas);
-        observer.observe(document.body);
-        resizeCanvas();
-
-        // Initialize dots for animation
-        let dots = Array.from({ length: 100 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: Math.random() * 2 - 1,
-            vy: Math.random() * 2 - 1,
-            radius: Math.random() * 2 + 1
-        }));
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            dots.forEach(dot => {
-                dot.x += dot.vx;
-                dot.y += dot.vy;
-
-                if (dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
-                if (dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        // Activity rotation
-        const activities = ['ski powder', 'run marathons', 'climb rocks', 'grow gardens', 'throw backflips', 'sink birdies', 'play music'];
-        let activityIndex = 0;
-        const activityElement = document.getElementById('activity');
-
-        function rotateActivity() {
-            activityElement.textContent = activities[activityIndex];
-            activityIndex = (activityIndex + 1) % activities.length;
-        }
-
-        setInterval(rotateActivity, 2000);
-        rotateActivity();
-
-        // Button handlers
-        document.addEventListener('DOMContentLoaded', function() {
-            const getInLineButton = document.getElementById('getInLineButton');
-            const hubspotForm = document.getElementById('hubspot-form');
-            const content = document.getElementById('content');
-            const postSubmitInfo = document.getElementById('post-submit-info');
-            const haveTicketButton = document.getElementById('haveTicketButton');
-            const ticketModal = document.getElementById('ticketModal');
-            const closeModal = document.querySelector('.close');
-            const submitTicketButton = document.getElementById('submitTicketButton');
-            const ticketError = document.getElementById('ticketError');
-
-            // Get in Line button
-            getInLineButton.addEventListener('click', function() {
-                content.style.display = 'none';
-                hubspotForm.style.display = 'block';
-                resizeCanvas();
+        // Initialize Google Sign-In
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID",
+                callback: handleCredentialResponse
             });
 
-            // Have Ticket button
-            haveTicketButton.addEventListener('click', function() {
-                ticketModal.style.display = 'block';
-            });
+            google.accounts.id.renderButton(
+                document.getElementById('googleLoginButton'), {
+                    theme: 'outline',
+                    size: 'large',
+                    text: 'signin_with'
+                }
+            );
 
-            // Close modal button
-            closeModal.addEventListener('click', function() {
-                ticketModal.style.display = 'none';
-                ticketError.style.display = 'none';
-            });
+            google.accounts.id.prompt(); // Automatically prompts for login if possible
+        };
 
-            // Submit ticket button
-            submitTicketButton.addEventListener('click', function() {
-                const ticketNumber = document.getElementById('ticketNumber').value;
-                const validTickets = [
-                    'KT222', 'Palmer4', 'Sunnyside3', 'Summit6', 'GoldCoast4',
-                    'BigRed2', 'LittleCloud3', 'Garbanzo4', 'PeakExpress6', 'Eagle3'
-                ];
+        function handleCredentialResponse(response) {
+            if (!response.credential) {
+                showError("Login failed. Please try again.");
+                return;
+            }
 
-                if (validTickets.includes(ticketNumber)) {
-                    window.location.href = 'validated.html';
+            fetch('https://chairlift-fun.onrender.com/oauth2callback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: response.credential })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Check if the user is on the roster
+                    if (data.user.onRoster) {
+                        localStorage.setItem('email', data.user.email);
+                        window.location.href = '/dashboard';
+                    } else {
+                        alert("You're not on the roster yet. Please sign up first.");
+                        window.location.href = '/signup';
+                    }
                 } else {
-                    ticketError.style.display = 'block';
+                    showError(data.message || "Login failed. Please try again.");
                 }
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+                showError("An unexpected error occurred. Please try again.");
             });
+        }
 
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target == ticketModal) {
-                    ticketModal.style.display = 'none';
-                    ticketError.style.display = 'none';
-                }
-            });
-        });
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
     </script>
 </body>
-<script>
-    // Google Sign-In Initialization
-    window.onload = function() {
-        google.accounts.id.initialize({
-            client_id: "496967097017-srg4hqfd8c1od4g26042q3lqnf4m5rgq.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-
-        google.accounts.id.renderButton(
-            document.getElementById('googleLoginButton'), {
-                theme: 'outline',
-                size: 'large',
-                text: 'signin_with'
-            }
-        );
-
-        google.accounts.id.prompt(); // Automatically prompts for login if possible
-    };
-    function handleCredentialResponse(response) {
-        if (!response.credential) {
-            console.error("No credential received");
-            alert("Login failed. Please try again.");
-            return;
-        }
-
-        fetch('https://chairlift-fun.onrender.com/oauth2callback', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: response.credential }),
-        })
-        .then(res => res.json())
-        .then(data => {
-        if (data.success) {
-            console.log('Login successful:', data.user);
-
-            // Save email to localStorage for dashboard use
-            localStorage.setItem('email', data.user.email);
-
-            // Redirect to dashboard
-            window.location.href = '/dashboard';
-        } else {
-            console.error('Login failed:', data.message);
-            alert('Login failed. Please try again.');
-        }
-      })
-     .catch(error => {
-        console.error('Error during login:', error);
-        alert("You don't have an account yet. The first step is to get in line.");
-    });
- }
-</script>
 </html>
