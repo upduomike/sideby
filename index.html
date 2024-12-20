@@ -45,6 +45,33 @@
             margin-top: 15px;
             display: none;
         }
+
+        /* Member Stories Section */
+        .member-stories-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #memberStoriesButton {
+            background-color: #ffccbc;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #memberStoriesButton:hover {
+            background-color: #ffab91;
+        }
+
+        #memberStoriesContent {
+            margin-top: 20px;
+            color: white;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -54,6 +81,19 @@
         <p id="dynamicText">The second best way to get better at <span id="activity">teaching</span>.</p>
         <div id="googleLoginButton"></div>
         <p id="errorMessage">Login failed. Please try again.</p>
+    </div>
+
+    <!-- Member Stories Section -->
+    <div class="member-stories-section">
+        <button id="memberStoriesButton" onclick="showMemberStories()">Member Stories</button>
+        <div id="memberStoriesContent">
+            <h2>Meet Rob</h2>
+            <p>Rob is a singleton STEM teacher in Coleville, Washington, who has some transformative ideas about teaching and learning. His story is one of resilience, creativity, and innovation in education. Watch his story below:</p>
+            <video controls width="640">
+                <source src="https://storage.googleapis.com/sidebystories/Final%20Meet%20Rob%2012.17.24.1%20(1).mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <!-- Script Section -->
@@ -122,6 +162,12 @@
             const errorElement = document.getElementById('errorMessage');
             errorElement.textContent = message;
             errorElement.style.display = 'block';
+        }
+
+        // Toggle Member Stories Visibility
+        function showMemberStories() {
+            const content = document.getElementById('memberStoriesContent');
+            content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
         }
     </script>
 </body>
